@@ -403,9 +403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d1fb44e85e3444296cce31a3a6b1d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components: []
-  _rotor: {fileID: 0}
-  _motor: {fileID: 8191636230422956106}
+  _behaviors:
+  - {fileID: 475609320816896156}
+  - {fileID: 8191636230422956106}
 --- !u!114 &6655802080128131519
 MonoBehaviour:
   m_ObjectHideFlags: 0

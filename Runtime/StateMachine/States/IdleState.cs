@@ -1,19 +1,19 @@
-﻿using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
+﻿using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
 using Depra.Pawn.Runtime.StateMachine.States.Abstract;
 
 namespace Depra.Pawn.Runtime.StateMachine.States
 {
     public class IdleState : PawnState
     {
-        private readonly IPawnMotor _motor;
+        private readonly PawnMotor _motor;
 
         public override void Enter()
         {
-            var velocity = _motor.LastInput.Velocity;
+            var velocity = _motor.CurrentVelocity;
             velocity.x = 0f;
             velocity.z = 0f;
 
-            _motor.SetVelocity(velocity);
+            _motor.SetRelativeVelocity(velocity);
         }
 
         public override void Tick()
@@ -21,7 +21,7 @@ namespace Depra.Pawn.Runtime.StateMachine.States
             // Do nothing.
         }
 
-        public IdleState(IPawnMotor motor)
+        public IdleState(PawnMotor motor)
         {
             _motor = motor;
         }

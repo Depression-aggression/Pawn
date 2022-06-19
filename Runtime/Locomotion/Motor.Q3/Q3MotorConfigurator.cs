@@ -1,25 +1,23 @@
 ﻿using System;
 using Depra.Pawn.Runtime.Control.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Gravity.Impl;
-using Depra.Pawn.Runtime.Locomotion.Calculation.Contexts.Air.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Abstract;
+using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Aerial.ActiveFlight.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Complex;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.Jumping.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.WalkingAndRunning.Impl;
 using Depra.Pawn.Runtime.Locomotion.Data.Impl;
 using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
-using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
-using Depra.Pawn.Runtime.Modules.ReadInput.Abstract;
+using Depra.Pawn.Runtime.ReadInput.Abstract;
 using Depra.Pawn.Runtime.StateMachine.Impl;
 using Depra.Pawn.Runtime.StateMachine.Interfaces;
 using Depra.Pawn.Runtime.StateMachine.States;
-using Depra.Pawn.Runtime.Locomotion.Modifications.Impl;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Locomotion.Motor.Q3
 {
-    [CreateAssetMenu(fileName = "Quake 3 Movement", menuName = "Depra/Character/Movement/Quake 3", order = 51)]
+    [CreateAssetMenu(fileName = "Quake 3 Locomotion", menuName = "Depra/Character/Locomotion/Quake 3", order = 51)]
     public class Q3MotorConfigurator : MotorConfigurator
     {
         [SerializeField] private MovementSettings _groundMovement = new(7f, 14f, 10f);
@@ -44,7 +42,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Q3
             return complexMovement;
         }
 
-        public override IPawnStateMachine SetupMotor(IPawnMotor motor, LocomotionType locomotionType)
+        public override IPawnStateMachine SetupMotor(PawnMotor motor, LocomotionType locomotionType)
         {
             var gravityCalculator = new BasicGravityCalculator(_gravity, Time.fixedDeltaTime);
             motor.SetGravitation(gravityCalculator);

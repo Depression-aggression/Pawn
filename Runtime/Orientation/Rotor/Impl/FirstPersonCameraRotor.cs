@@ -1,6 +1,6 @@
-﻿using Depra.Pawn.Runtime.Modules.ReadInput.Abstract;
-using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+﻿using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
 using Depra.Pawn.Runtime.Orientation.Types.Abstract;
+using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
@@ -25,7 +25,7 @@ namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
             Orientation =_configurator.SetupOrientation(initialCameraRotation.x, initialCameraRotation.y);
         }
 
-        private void Update()
+        public override void UpdateLate()
         {
             var verticalRotation = Orientation.CalculateVerticalRotation(_inputReader.Pitch);
             var horizontalRotation = Orientation.CalculateHorizontalRotation(_inputReader.Yaw);

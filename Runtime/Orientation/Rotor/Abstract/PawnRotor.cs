@@ -1,11 +1,12 @@
 using System;
 using Depra.Pawn.Runtime.Orientation.Rotor.Interfaces;
 using Depra.Pawn.Runtime.Orientation.Types.Abstract;
+using Depra.Pawn.Runtime.UpdateMethod.Abstract;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Orientation.Rotor.Abstract
 {
-    public abstract class PawnRotor : MonoBehaviour, ICameraOrientationContext
+    public abstract class PawnRotor : UpdatablePawnBehavior, ICameraOrientationContext
     {
         public abstract Vector3 CameraPosition { get; }
         public Quaternion CameraRotation { get; internal set; }

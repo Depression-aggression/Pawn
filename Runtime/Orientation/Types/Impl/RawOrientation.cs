@@ -8,15 +8,7 @@ namespace Depra.Pawn.Runtime.Orientation.Types.Impl
     {
         private DegreeAxis _yaw;
         private DegreeAxis _pitch;
-        
-        public override Quaternion CalculateVerticalRotation(float pitch)
-        {
-            _pitch.Current -= pitch;
-            var verticalRotation = Quaternion.AngleAxis(_pitch.Current, Vector3.right);
 
-            return verticalRotation;
-        }
-        
         public override Quaternion CalculateHorizontalRotation(float yaw)
         {
             _yaw.Current += yaw;
@@ -25,7 +17,15 @@ namespace Depra.Pawn.Runtime.Orientation.Types.Impl
             return horizontalRotation;
         }
 
-        public RawOrientation(DegreeAxis yaw,  DegreeAxis pitch)
+        public override Quaternion CalculateVerticalRotation(float pitch)
+        {
+            _pitch.Current -= pitch;
+            var verticalRotation = Quaternion.AngleAxis(_pitch.Current, Vector3.right);
+
+            return verticalRotation;
+        }
+
+        public RawOrientation(DegreeAxis yaw, DegreeAxis pitch)
         {
             _yaw = yaw;
             _pitch = pitch;

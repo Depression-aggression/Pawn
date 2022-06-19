@@ -1,5 +1,4 @@
 ﻿using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Abstract;
-using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
 using Depra.Pawn.Runtime.StateMachine.Interfaces;
 using UnityEngine;
 
@@ -9,6 +8,6 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Abstract
     {
         public abstract LocomotionType SetupMovement(float frameTime);
 
-        public abstract IPawnStateMachine SetupMotor(IPawnMotor motor, LocomotionType locomotionType);
+        public abstract IPawnStateMachine SetupMotor(PawnMotor motor, LocomotionType locomotionType);
     }
 }

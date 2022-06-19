@@ -4,42 +4,44 @@ using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Gravity.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Data.Interfaces;
 using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
 using Depra.Pawn.Runtime.Locomotion.Targets.Abstract;
+using Depra.Pawn.Runtime.UpdateMethod.Abstract;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Locomotion.Motor.Abstract
 {
-    public abstract class PawnMotor : MonoBehaviour, IPawnMotor, IDirectionTransformer
+    public abstract class PawnMotor : UpdatablePawnBehavior, ILocomotionContext, IDirectionTransformer
     {
         [SerializeField] private Transform _origin;
         [SerializeField] private VelocityReceiver _target;
 
-        [PublicAPI] public Vector3 CurrentVelocity => LastInput.Velocity;
+        public Vector3 CurrentVelocity { get; private set; }
 
         [PublicAPI] public float CurrentSpeed => CurrentVelocity.magnitude;
 
         public bool GravityEnabled { get; private set; }
-        
-        public abstract IMotionInputData LastInput { get; protected set; }
+
+        public abstract IPawnLocomotionInput LastInput { get; protected set; }
+
         public PawnFlags Status { get; private set; }
-        
+
         protected GravityCalculator GravityCalculator { get; set; }
 
-        public event Action<IPawnMotor> Updated;
+        public event Action<ILocomotionContext> Updated;
         public event Action<Vector3> SpeedChanged;
 
-        public void SetVelocity(Vector3 velocity)
+        public void SetRelativeVelocity(Vector3 velocity)
         {
-            LastInput.Velocity = velocity;
+            CurrentVelocity = velocity;
 
             if (GravityEnabled)
             {
                 ApplyGravity();
             }
-            
+
             Updated?.Invoke(this);
             SpeedChanged?.Invoke(velocity);
-            
+
             MoveBy(CurrentVelocity);
         }
 
@@ -50,7 +52,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Abstract
 
         public void StopImmediately()
         {
-            SetVelocity(Vector3.zero);
+            SetRelativeVelocity(Vector3.zero);
         }
 
         public void SetActiveGravity(bool active)
@@ -66,9 +68,9 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Abstract
 
         public void ApplyGravity()
         {
-            LastInput.Velocity = Status.HasFlag(PawnFlags.Grounded)
-                ? GravityCalculator.SetGroundedGravity(LastInput.Velocity)
-                : GravityCalculator.ApplyGravity(LastInput.Velocity);
+            CurrentVelocity = Status.HasFlag(PawnFlags.Grounded)
+                ? GravityCalculator.SetGroundedGravity(CurrentVelocity)
+                : GravityCalculator.ApplyGravity(CurrentVelocity);
         }
 
         public void SetGrounded(bool grounded)

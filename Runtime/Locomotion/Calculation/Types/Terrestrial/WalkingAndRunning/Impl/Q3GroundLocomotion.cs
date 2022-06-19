@@ -5,6 +5,7 @@ using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Friction.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Friction.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.WalkingAndRunning.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Data.Interfaces;
+using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.WalkingAndRunning.Impl
@@ -18,11 +19,12 @@ namespace Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.WalkingAnd
         private readonly Accelerator _accelerator;
         private readonly FrictionCalculator _friction;
 
-        public override Vector3 CalculateVelocity(IMotionInputData inputData, PawnFlags status)
+        public override Vector3 CalculateVelocity(ILocomotionContext context)
         {
-            var velocity = _friction.CalculateFriction(inputData.Velocity, status.HasFlag(PawnFlags.Grounded));
+            var grounded = context.Status.HasFlag(PawnFlags.Grounded);
+            var velocity = _friction.CalculateFriction(context.CurrentVelocity, grounded);
 
-            var wishDirection = inputData.TransformedDirection;
+            var wishDirection = context.LastInput.TransformedDirection;
             wishDirection.Normalize();
 
             var wishSpeed = wishDirection.magnitude * _settings.MaxSpeed;

@@ -3,7 +3,7 @@ using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Data.Impl;
 using Depra.Pawn.Runtime.Locomotion.Data.Interfaces;
 using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
-using Depra.Pawn.Runtime.Modules.ReadInput.Abstract;
+using Depra.Pawn.Runtime.ReadInput.Abstract;
 using Depra.Pawn.Runtime.StateMachine.Interfaces;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Impl
         private LocomotionType _locomotionType;
         private IPawnStateMachine _stateMachine;
         
-        public override IMotionInputData LastInput { get; protected set; }
+        public override IPawnLocomotionInput LastInput { get; protected set; }
 
         private void Awake()
         {
@@ -28,19 +28,18 @@ namespace Depra.Pawn.Runtime.Locomotion.Motor.Impl
             _stateMachine = _configurator.SetupMotor(this, _locomotionType);
         }
 
-        private void Update()
+        public override void UpdateManual()
         {
             HandleInput();
         }
 
-        private void FixedUpdate()
+        public override void UpdateFixed()
         {
             _stateMachine.Tick();
         }
         
         private void HandleInput()
         {
-            LastInput.Velocity = CurrentVelocity;
             LastInput.RawDirection = new Vector3(_inputReader.Horizontal(), 0f, _inputReader.Vertical());
             LastInput.TransformedDirection = TransformDirection(LastInput.RawDirection);
 

@@ -34,7 +34,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Modifications.Impl
                 {
                     var modification = enumerator.Current;
                     var modifiedVelocity = modification.Modify(context);
-                    _motor.SetVelocity(modifiedVelocity);
+                    _motor.SetRelativeVelocity(modifiedVelocity);
                 }
             }
         }

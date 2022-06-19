@@ -1,11 +1,12 @@
-﻿using Depra.Pawn.Runtime.Control.Impl;
-using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Acceleration.Abstract;
+﻿using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Acceleration.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Additional.Acceleration.Impl;
+using Depra.Pawn.Runtime.Locomotion.Calculation.Contexts.Air.Impl;
 using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Aerial.ActiveFlight.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Data.Interfaces;
+using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
 using UnityEngine;
 
-namespace Depra.Pawn.Runtime.Locomotion.Calculation.Contexts.Air.Impl
+namespace Depra.Pawn.Runtime.Locomotion.Calculation.Types.Aerial.ActiveFlight.Impl
 {
     /// <summary>
     /// Quake 3 movement.
@@ -18,12 +19,12 @@ namespace Depra.Pawn.Runtime.Locomotion.Calculation.Contexts.Air.Impl
         private readonly AirControl _control;
         private readonly Accelerator _accelerator;
         
-        public override Vector3 CalculateVelocity(IMotionInputData inputData, PawnFlags status)
+        public override Vector3 CalculateVelocity(ILocomotionContext context)
         {
-            var velocity = inputData.Velocity;
-            var directionInput = inputData.RawDirection;
+            var velocity = context.CurrentVelocity;
+            var directionInput = context.LastInput.RawDirection;
 
-            var wishDirection = inputData.TransformedDirection;
+            var wishDirection = context.LastInput.TransformedDirection;
             var wishSpeed = wishDirection.magnitude * _movementSettings.MaxSpeed;
 
             wishDirection.Normalize();

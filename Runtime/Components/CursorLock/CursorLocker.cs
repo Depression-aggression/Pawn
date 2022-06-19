@@ -6,12 +6,12 @@ namespace Depra.Pawn.Runtime.Components.CursorLock
     {
         private void OnEnable()
         {
-            LockCursor();
+            HandleCursorLock(true);
         }
         
-        private static void LockCursor()
+        private static void HandleCursorLock(bool lockState)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = lockState ? CursorLockMode.Locked : CursorLockMode.None;
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Abstract;
 using Depra.Pawn.Runtime.Locomotion.Commands;
-using Depra.Pawn.Runtime.Locomotion.Motor.Interfaces;
+using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
 
 namespace Depra.Pawn.Runtime.StateMachine.States.Abstract
 {
     public abstract class MotionState : PawnState
     {
-        private readonly IPawnMotor _motor;
+        private readonly PawnMotor _motor;
         private readonly LocomotionType _locomotionType;
 
         public override void Tick()
@@ -15,7 +15,7 @@ namespace Depra.Pawn.Runtime.StateMachine.States.Abstract
             command.Execute();
         }
 
-        protected MotionState(IPawnMotor motor, LocomotionType locomotionType)
+        protected MotionState(PawnMotor motor, LocomotionType locomotionType)
         {
             _motor = motor;
             _locomotionType = locomotionType;
