@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Depra.Pawn.Runtime.Modifications.Interfaces
 {
-    public interface IModificationsCollection<TModification> where TModification : IPawnModification
+    public interface IModificationsCollection<TModification> : IModificationContext<TModification>
+        where TModification : IPawnModification
     {
-        void AddModification(TModification modification);
-
-        void RemoveModification(Type modificationType);
-
-        IEnumerator<TModification> GetEnumerator();
+        int Count { get; }
+        
+        ICollection<TModification> GetAll();
     }
 }

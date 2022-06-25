@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Depra.Pawn.Runtime.Modifications.Interfaces;
-using Depra.Pawn.Runtime.Orientation.Modifications.Interfaces;
 
 namespace Depra.Pawn.Runtime.Modifications.Abstract
 {
@@ -10,8 +9,15 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
     {
         private readonly IDictionary<Type, TModification> _modifications;
 
+        public int Count => _modifications.Count;
+
         public void AddModification(TModification modification)
         {
+            if (modification == null)
+            {
+                throw new NullReferenceException("Modification is null!");
+            }
+            
             var modificationType = modification.GetType();
             if (_modifications.ContainsKey(modificationType) == false)
             {
@@ -21,16 +27,18 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
 
         public void RemoveModification(Type modificationType)
         {
+            if (modificationType == null)
+            {
+                throw new NullReferenceException("Modification type is null!");
+            }
+            
             if (_modifications.ContainsKey(modificationType))
             {
                 _modifications.Remove(modificationType);
             }
         }
-
-        public IEnumerator<TModification> GetEnumerator()
-        {
-            return _modifications.Values.GetEnumerator();
-        }
+        
+        public ICollection<TModification> GetAll() => _modifications.Values;
 
         public ModificationsDictionary()
         {
@@ -39,7 +47,7 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
 
         public ModificationsDictionary(IDictionary<Type, TModification> modifications)
         {
-            _modifications = modifications;
+            _modifications = modifications ?? new Dictionary<Type, TModification>();
         }
     }
 }
