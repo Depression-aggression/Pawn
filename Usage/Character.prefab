@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _motor: {fileID: 8191636230422956106}
+  _config: {fileID: 11400000, guid: 05001bf408d8cf446b19d00657346a0e, type: 2}
 --- !u!1 &6655802078651253103
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6655802079867066597}
   - component: {fileID: 475609320816896156}
+  - component: {fileID: 942546294669466122}
   m_Layer: 0
   m_Name: Rotor
   m_TagString: Untagged
@@ -352,6 +354,21 @@ MonoBehaviour:
   _cameraOrigin: {fileID: 6655802078651253102}
   _inputReader: {fileID: 11400000, guid: 963e1bcd969fffd4e961218288169d5f, type: 2}
   _configurator: {fileID: 11400000, guid: 3dc3a9a405ed1b441acd980dbb3228d6, type: 2}
+--- !u!114 &942546294669466122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6655802079867066598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6f58f6c810c46b587b7691531dad035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotor: {fileID: 475609320816896156}
+  _motorInputReader: {fileID: 11400000, guid: 20d608dcc3acc004c80158f563307c78, type: 2}
+  _config: {fileID: 11400000, guid: 1f8583ab3c6fc38438c0289c317d82f5, type: 2}
 --- !u!1 &6655802080128131456
 GameObject:
   m_ObjectHideFlags: 0
