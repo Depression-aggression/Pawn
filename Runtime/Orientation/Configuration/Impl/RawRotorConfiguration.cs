@@ -1,12 +1,14 @@
-﻿using Depra.Pawn.Runtime.Orientation.Data;
-using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+﻿using Depra.Pawn.Runtime.Common;
+using Depra.Pawn.Runtime.Orientation.Configuration.Abstract;
+using Depra.Pawn.Runtime.Orientation.Structs;
 using Depra.Pawn.Runtime.Orientation.Types.Abstract;
 using Depra.Pawn.Runtime.Orientation.Types.Impl;
 using UnityEngine;
 
-namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
+namespace Depra.Pawn.Runtime.Orientation.Configuration.Impl
 {
-    [CreateAssetMenu(fileName = "Rotor Configurator", menuName = "Depra/Character/Orientation/Raw", order = 51)]
+    [CreateAssetMenu(fileName = "Rotor Configurator",
+        menuName = Constants.FrameworkPath + Constants.ModulePath + "Orientation/Raw", order = 51)]
     public class RawRotorConfiguration : RotorConfigurator
     {
         [SerializeField] private DegreeAxis _yawAxis = new(0f, 0f, false);
@@ -16,7 +18,7 @@ namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
         {
             _yawAxis.Current = initialYaw;
             _pithAxis.Current = initialPitch;
-            
+
             var orientation = new RawOrientation(_yawAxis, _pithAxis);
 
             return orientation;

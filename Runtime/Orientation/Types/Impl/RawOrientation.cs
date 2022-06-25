@@ -1,4 +1,4 @@
-﻿using Depra.Pawn.Runtime.Orientation.Data;
+﻿using Depra.Pawn.Runtime.Orientation.Structs;
 using Depra.Pawn.Runtime.Orientation.Types.Abstract;
 using UnityEngine;
 

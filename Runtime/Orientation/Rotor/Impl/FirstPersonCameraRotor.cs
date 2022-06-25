@@ -1,5 +1,8 @@
-﻿using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
-using Depra.Pawn.Runtime.Orientation.Types.Abstract;
+﻿using Depra.Pawn.Runtime.Orientation.Configuration.Abstract;
+using Depra.Pawn.Runtime.Orientation.Configuration.Interfaces;
+using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+using Depra.Pawn.Runtime.Orientation.Targets.Impl;
+using Depra.Pawn.Runtime.Orientation.Targets.Interfaces;
 using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
 
@@ -14,29 +17,23 @@ namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
         [SerializeField] private Transform _cameraOrigin;
         [SerializeField] private RotorInputReader _inputReader;
         [SerializeField] private RotorConfigurator _configurator;
-
-        public override Vector3 CameraPosition => _cameraOrigin.position;
         
-        protected override OrientationType Orientation { get; set; }
+        private ILocalRotationReceiver _localRotationReceiver;
+        
+        internal override Transform CameraOrigin => _cameraOrigin;
+        internal override ILocalRotationReceiver Receiver => _localRotationReceiver;
+        
+        protected override IOrientationConfiguration Configuration => _configurator;
 
         private void Awake()
         {
-            var initialCameraRotation = _cameraOrigin.localRotation;
-            Orientation =_configurator.SetupOrientation(initialCameraRotation.x, initialCameraRotation.y);
+            _localRotationReceiver = new CameraLocalRotationReceiver(_cameraOrigin);
+            Init(_cameraOrigin.localRotation);
         }
 
         public override void UpdateLate()
         {
-            var verticalRotation = Orientation.CalculateVerticalRotation(_inputReader.Pitch);
-            var horizontalRotation = Orientation.CalculateHorizontalRotation(_inputReader.Yaw);
-            var rotation = horizontalRotation * verticalRotation;
-
-            UpdateCameraRotation(rotation);
-        }
-
-        protected override void ApplyCameraRotation()
-        {
-            _cameraOrigin.localRotation = CameraRotation;
+            HandleInput(_inputReader.Yaw, _inputReader.Pitch);
         }
     }
 }

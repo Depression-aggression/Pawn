@@ -1,5 +1,8 @@
-﻿using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
-using Depra.Pawn.Runtime.Orientation.Types.Abstract;
+﻿using Depra.Pawn.Runtime.Orientation.Configuration.Abstract;
+using Depra.Pawn.Runtime.Orientation.Configuration.Interfaces;
+using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+using Depra.Pawn.Runtime.Orientation.Targets.Impl;
+using Depra.Pawn.Runtime.Orientation.Targets.Interfaces;
 using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
 
@@ -12,32 +15,22 @@ namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
         [SerializeField] private RotorInputReader _inputReader;
         [SerializeField] private RotorConfigurator _configurator;
 
-        public override Vector3 CameraPosition => _cameraOrigin.position;
-        protected override OrientationType Orientation { get; set; }
+        private ILocalRotationReceiver _localRotationReceiver;
+        
+        internal override Transform CameraOrigin => _cameraOrigin;
+        internal override ILocalRotationReceiver Receiver => _localRotationReceiver;
+        
+        protected override IOrientationConfiguration Configuration => _configurator;
 
         private void Awake()
         {
-            var initialCameraRotation = _cameraOrigin.localRotation;
-            Orientation = _configurator.SetupOrientation(initialCameraRotation.x, initialCameraRotation.y);
+            _localRotationReceiver = new CameraWithBodyLocalRotationReceiver(_cameraOrigin, _bodyOrigin);
+            Init(_cameraOrigin.localRotation);
         }
 
         public override void UpdateLate()
         {
-            var horizontalRotation = Orientation.CalculateHorizontalRotation(_inputReader.Yaw);
-            var verticalRotation = Orientation.CalculateVerticalRotation(_inputReader.Pitch);
-            
-            UpdateBodyRotation(horizontalRotation);
-            UpdateCameraRotation(verticalRotation);
-        }
-
-        protected override void ApplyCameraRotation()
-        {
-            _cameraOrigin.localRotation = CameraRotation;
-        }
-
-        private void UpdateBodyRotation(Quaternion bodyRotation)
-        {
-            _bodyOrigin.rotation = bodyRotation;
+            HandleInput(_inputReader.Yaw, _inputReader.Pitch);
         }
     }
 }

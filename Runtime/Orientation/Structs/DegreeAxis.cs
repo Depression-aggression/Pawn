@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Depra.Pawn.Runtime.Orientation.Data
+namespace Depra.Pawn.Runtime.Orientation.Structs
 {
     [Serializable]
     public struct DegreeAxis
