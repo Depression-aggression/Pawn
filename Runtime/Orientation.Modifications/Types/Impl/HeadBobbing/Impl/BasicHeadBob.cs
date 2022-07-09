@@ -8,20 +8,15 @@ namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadBobbing.Im
     public class BasicHeadBob : HeadBob
     {
         private float _headBobTimer;
-        private float _defaultPositionY;
 
-        public BasicHeadBob(HeadBobSettings settings, float defaultPositionY) : base(settings)
-        {
-            _defaultPositionY = defaultPositionY;
-        }
-
-        public override Vector3 CalculateBobbing(Vector3 previousLocalPosition, Vector2 motionDirection, float frameTime)
+        public override Vector3 CalculateBobbing(Vector3 previousLocalPosition, Vector2 motionDirection,
+            float frameTime)
         {
             if (Mathf.Abs(motionDirection.x) > 0.1f || Mathf.Abs(motionDirection.y) > 0.1f)
             {
                 _headBobTimer += Settings.Speed * frameTime;
                 var localPosition = IncreaseBobbing(previousLocalPosition);
-                
+
                 return localPosition;
             }
             else
@@ -33,11 +28,15 @@ namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadBobbing.Im
             }
         }
         
+        public BasicHeadBob(HeadBobSettings settings) : base(settings)
+        {
+        }
+
         private Vector3 IncreaseBobbing(Vector3 headPosition)
         {
             headPosition = new Vector3(
                 headPosition.x,
-                _defaultPositionY + Mathf.Sin(_headBobTimer) * Settings.Amount,
+                Settings.DefaultHeight + Mathf.Sin(_headBobTimer) * Settings.Amount,
                 headPosition.z);
 
             return headPosition;
@@ -47,7 +46,7 @@ namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadBobbing.Im
         {
             headPosition = new Vector3(
                 headPosition.x,
-                Mathf.Lerp(headPosition.y, _defaultPositionY, Settings.Speed * frameTime),
+                Mathf.Lerp(headPosition.y, Settings.DefaultHeight, Settings.Speed * frameTime),
                 headPosition.z);
 
             return headPosition;

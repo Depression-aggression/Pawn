@@ -1,5 +1,5 @@
 ﻿using System;
-using Depra.Pawn.Runtime.Orientation.Modifications.HeadTilt.Impl;
+using Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadTilt.Impl;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadTilt.Abstract
@@ -9,7 +9,8 @@ namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadTilt.Abstr
     {
         protected HeadTiltSettings Settings { get; private set; }
 
-        public abstract Quaternion CalculateTiltRotation(Quaternion previousLocalRotation, LastTwoDirections directions, float frameTime);
+        public abstract Quaternion CalculateTiltRotation(Quaternion previousLocalRotation, LastTwoDirections directions,
+            float frameTime);
 
         protected HeadTiltBase(HeadTiltSettings settings)
         {

@@ -7,6 +7,8 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
     public class ModificationsDictionary<TModification> : IModificationsCollection<TModification>
         where TModification : IPawnModification
     {
+        private const int DefaultCapacity = 10;
+
         private readonly IDictionary<Type, TModification> _modifications;
 
         public int Count => _modifications.Count;
@@ -17,7 +19,7 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
             {
                 throw new NullReferenceException("Modification is null!");
             }
-            
+
             var modificationType = modification.GetType();
             if (_modifications.ContainsKey(modificationType) == false)
             {
@@ -31,18 +33,22 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
             {
                 throw new NullReferenceException("Modification type is null!");
             }
-            
+
             if (_modifications.ContainsKey(modificationType))
             {
                 _modifications.Remove(modificationType);
             }
         }
-        
-        public ICollection<TModification> GetAll() => _modifications.Values;
 
-        public ModificationsDictionary()
+        public IEnumerable<TModification> GetAll() => _modifications.Values;
+
+        public ModificationsDictionary() : this(DefaultCapacity)
         {
-            _modifications = new Dictionary<Type, TModification>();
+        }
+
+        public ModificationsDictionary(int capacity)
+        {
+            _modifications = new Dictionary<Type, TModification>(capacity);
         }
 
         public ModificationsDictionary(IDictionary<Type, TModification> modifications)

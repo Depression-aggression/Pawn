@@ -1,10 +1,10 @@
 ﻿using Depra.Pawn.Runtime.Orientation.Configuration.Abstract;
 using Depra.Pawn.Runtime.Orientation.Configuration.Interfaces;
 using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+using Depra.Pawn.Runtime.Orientation.Targets.Abstract;
 using Depra.Pawn.Runtime.Orientation.Targets.Impl;
-using Depra.Pawn.Runtime.Orientation.Targets.Interfaces;
-using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
 {
@@ -12,28 +12,33 @@ namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
     /// A simple FPP (First Person Perspective) camera rotation script.
     /// Like those found in most FPS (First Person Shooter) games.
     /// </summary>
-    public class FirstPersonCameraRotor : PawnRotor
+    public class FirstPersonCameraRotor : SoloPawnRotor
     {
         [SerializeField] private Transform _cameraOrigin;
-        [SerializeField] private RotorInputReader _inputReader;
-        [SerializeField] private RotorConfigurator _configurator;
+        [SerializeField] private RotorConfigurationScriptable _configuration;
         
-        private ILocalRotationReceiver _localRotationReceiver;
-        
-        internal override Transform CameraOrigin => _cameraOrigin;
-        internal override ILocalRotationReceiver Receiver => _localRotationReceiver;
-        
-        protected override IOrientationConfiguration Configuration => _configurator;
+        protected override IOrientationLayerConfiguration Configuration => _configuration;
 
         private void Awake()
         {
-            _localRotationReceiver = new CameraLocalRotationReceiver(_cameraOrigin);
-            Init(_cameraOrigin.localRotation);
+            Assert.IsNotNull(_cameraOrigin);
+            Assert.IsNotNull(_configuration);
+            
+            Setup();
         }
 
         public override void UpdateLate()
         {
-            HandleInput(_inputReader.Yaw, _inputReader.Pitch);
+            OnUpdate(Time.deltaTime);
+        }
+
+        protected override OrientationOrigin SetupOrigin()
+        {
+            var localPositionProvider = new TransformLocalPositionProvider(_cameraOrigin);
+            var localRotationProvider = new TransformLocalRotationProvider(_cameraOrigin);
+            var origin = new CameraOrigin(localPositionProvider, localRotationProvider);
+
+            return origin;
         }
     }
 }

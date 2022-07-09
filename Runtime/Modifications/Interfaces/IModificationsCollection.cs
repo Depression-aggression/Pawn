@@ -6,7 +6,7 @@ namespace Depra.Pawn.Runtime.Modifications.Interfaces
         where TModification : IPawnModification
     {
         int Count { get; }
-        
-        ICollection<TModification> GetAll();
+
+        IEnumerable<TModification> GetAll();
     }
 }

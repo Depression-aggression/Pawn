@@ -1,36 +1,43 @@
 ﻿using Depra.Pawn.Runtime.Orientation.Configuration.Abstract;
 using Depra.Pawn.Runtime.Orientation.Configuration.Interfaces;
 using Depra.Pawn.Runtime.Orientation.Rotor.Abstract;
+using Depra.Pawn.Runtime.Orientation.Targets.Abstract;
 using Depra.Pawn.Runtime.Orientation.Targets.Impl;
-using Depra.Pawn.Runtime.Orientation.Targets.Interfaces;
-using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depra.Pawn.Runtime.Orientation.Rotor.Impl
 {
-    public class FirstPersonCameraWithBodyRotor : PawnRotor
+    public class FirstPersonCameraWithBodyRotor : SoloPawnRotor
     {
         [SerializeField] private Transform _bodyOrigin;
         [SerializeField] private Transform _cameraOrigin;
-        [SerializeField] private RotorInputReader _inputReader;
-        [SerializeField] private RotorConfigurator _configurator;
-
-        private ILocalRotationReceiver _localRotationReceiver;
+        [SerializeField] private RotorConfigurationScriptable _configuration;
         
-        internal override Transform CameraOrigin => _cameraOrigin;
-        internal override ILocalRotationReceiver Receiver => _localRotationReceiver;
-        
-        protected override IOrientationConfiguration Configuration => _configurator;
+        protected override IOrientationLayerConfiguration Configuration => _configuration;
 
         private void Awake()
         {
-            _localRotationReceiver = new CameraWithBodyLocalRotationReceiver(_cameraOrigin, _bodyOrigin);
-            Init(_cameraOrigin.localRotation);
+            Assert.IsNotNull(_bodyOrigin);
+            Assert.IsNotNull(_cameraOrigin);
+            Assert.IsNotNull(_configuration);
+            
+            Setup();
         }
 
         public override void UpdateLate()
         {
-            HandleInput(_inputReader.Yaw, _inputReader.Pitch);
+            OnUpdate(Time.deltaTime);
+        }
+
+        protected override OrientationOrigin SetupOrigin()
+        {
+            var localPositionProvider = new TransformLocalPositionProvider(_cameraOrigin);
+            var localRotationProvider = new TransformLocalRotationProvider(_cameraOrigin);
+            var rotationProvider = new TransformRotationProvider(_bodyOrigin);
+            var origin = new CameraWithBodyOrigin(localPositionProvider, localRotationProvider, rotationProvider);
+
+            return origin;
         }
     }
 }

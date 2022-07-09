@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Depra.Pawn.Runtime.Orientation.Modifications.HeadTilt.Impl
+namespace Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadTilt.Impl
 {
     [Serializable]
     public struct HeadTiltSettings

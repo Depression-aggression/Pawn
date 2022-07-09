@@ -1,5 +1,4 @@
-﻿using Depra.Pawn.Runtime.Orientation.Modifications.HeadTilt.Impl;
-using Depra.Pawn.Runtime.Orientation.Modifications.Types.Abstract;
+﻿using Depra.Pawn.Runtime.Orientation.Modifications.Types.Abstract;
 using Depra.Pawn.Runtime.Orientation.Modifications.Types.Impl.HeadTilt.Abstract;
 using UnityEngine;
 

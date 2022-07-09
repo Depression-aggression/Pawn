@@ -1,44 +1,46 @@
 using System;
 using Depra.Pawn.Runtime.Orientation.Configuration.Interfaces;
 using Depra.Pawn.Runtime.Orientation.Rotor.Interfaces;
-using Depra.Pawn.Runtime.Orientation.Systems.Impl;
 using Depra.Pawn.Runtime.Orientation.Systems.Interfaces;
-using Depra.Pawn.Runtime.Orientation.Targets.Interfaces;
+using Depra.Pawn.Runtime.Orientation.Targets.Abstract;
 using Depra.Pawn.Runtime.UpdateMethod.Abstract;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Orientation.Rotor.Abstract
 {
-    public abstract class PawnRotor : UpdatablePawnBehavior, IOrientationContext
+    public abstract class PawnRotor : UpdatablePawnBehavior, IOrientationLayer
     {
-        private IOrientationSystem _orientationSystem;
+        private IOrientationSystem[] _systems;
 
-        public Vector3 OriginLocalPosition => CameraOrigin.localPosition;
-        public Quaternion OriginLocalRotation => _orientationSystem.OriginLocalRotation;
-        
-        internal abstract Transform CameraOrigin { get; }
-        internal abstract ILocalRotationReceiver Receiver { get; }
-        
-        protected abstract IOrientationConfiguration Configuration { get; }
+        public OrientationOrigin[] Origins { get; private set; }
 
-        public event Action<Quaternion> RotationChanged;
-        
-        protected void Init(Quaternion initialRotation)
+        protected abstract IOrientationLayerConfiguration Configuration { get; }
+
+        public void Setup()
         {
+            Origins = SetupOrigins();
+            
+            var initialRotation = Origins[0].LocalRotation;
             var initialAngles = new Vector2(initialRotation.x, initialRotation.y);
-            _orientationSystem = new OrientationSystem(Configuration, initialAngles, Receiver);
 
-            _orientationSystem.RotationChanged += RotationChanged;
+            _systems = Array.Empty<IOrientationSystem>();
+            Configuration.ConfigureLayer(this, initialAngles.x, initialAngles.y);
         }
 
-        protected void HandleInput(float yaw, float pitch)
+        public void OnUpdate(float timeStep)
         {
-            _orientationSystem.Execute(yaw, pitch);
+            foreach (var system in _systems)
+            {
+                system.OnUpdate(timeStep);
+            }
         }
-        
-        private void OnDestroy()
+
+        public void AddSystem(IOrientationSystem system)
         {
-            _orientationSystem.RotationChanged -= RotationChanged;
+            Array.Resize(ref _systems, _systems.Length + 1);
+            _systems[^1] = system;
         }
+
+        protected abstract OrientationOrigin[] SetupOrigins();
     }
 }

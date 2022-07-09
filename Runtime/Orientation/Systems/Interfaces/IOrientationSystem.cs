@@ -1,9 +1,7 @@
-﻿using Depra.Pawn.Runtime.Orientation.Rotor.Interfaces;
-
-namespace Depra.Pawn.Runtime.Orientation.Systems.Interfaces
+﻿namespace Depra.Pawn.Runtime.Orientation.Systems.Interfaces
 {
-    public interface IOrientationSystem : IOrientationContext
+    public interface IOrientationSystem
     {
-        void Execute(float yaw, float pitch);
+        void OnUpdate(float timeStep);
     }
 }
