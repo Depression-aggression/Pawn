@@ -1,4 +1,3 @@
-using Depra.Pawn.Runtime.StateMachine.Impl;
 using JetBrains.Annotations;
 
 namespace Depra.Pawn.Runtime.StateMachine.Interfaces
@@ -12,8 +11,8 @@ namespace Depra.Pawn.Runtime.StateMachine.Interfaces
 
         bool NeedTransition(out IPawnState nextState);
 
-        void AddTransition(IPawnState from, IPawnState to, CharacterStateTransition transition);
+        void AddTransition(IPawnState from, IPawnState to, IPawnStateTransition transition);
 
-        void AddAnyTransition(IPawnState to, CharacterStateTransition transition);
+        void AddAnyTransition(IPawnState to, IPawnStateTransition transition);
     }
 }

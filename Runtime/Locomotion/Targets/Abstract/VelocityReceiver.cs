@@ -1,12 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿using Depra.Pawn.Runtime.Locomotion.Targets.Interfaces;
 using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Locomotion.Targets.Abstract
 {
-    [PublicAPI]
-    internal abstract class VelocityReceiver : MonoBehaviour
+    internal abstract class VelocityReceiver : MonoBehaviour, IVelocityReceiver
     {
-        public abstract void SetVelocity(Vector3 newVelocity);
+        public abstract void SetRelativeVelocity(Vector3 newVelocity);
 
         public abstract void AddVelocity(Vector3 additionalVelocity);
     }

@@ -55,5 +55,13 @@ namespace Depra.Pawn.Runtime.Modifications.Abstract
         {
             _modifications = modifications ?? new Dictionary<Type, TModification>();
         }
+
+        public ModificationsDictionary(params TModification[] modifications) : this(modifications.Length)
+        {
+            for (var i = 0; i < modifications.Length; i++)
+            {
+                AddModification(modifications[i]);
+            }
+        }
     }
 }

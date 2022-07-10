@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3114854979726777023}
   - component: {fileID: 4813051929710558188}
   - component: {fileID: 6936650478462459380}
-  - component: {fileID: 4886165335005328536}
   m_Layer: 0
   m_Name: Motor
   m_TagString: Untagged
@@ -49,11 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _origin: {fileID: 6655802080128131517}
+  _target: {fileID: 4813051929710558188}
   _configuration: {fileID: 11400000, guid: e74758f5598d66644b65eca349036f1c, type: 2}
-  _targets:
-  - {fileID: 4813051929710558188}
-  _extensions:
-  - {fileID: 3114854979726777023}
 --- !u!114 &3114854979726777023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,20 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 0}
---- !u!114 &4886165335005328536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3278932274911862752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd9aba8d8934115b985e51ed695e88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pawnMotor: {fileID: 636065622274369830}
-  _currentVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &6655802078651253103
 GameObject:
   m_ObjectHideFlags: 0

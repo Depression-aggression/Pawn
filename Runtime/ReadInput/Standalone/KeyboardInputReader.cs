@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Depra.Pawn.Runtime.Modules.ReadInput.Abstract;
+using Depra.Pawn.Runtime.Common;
+using Depra.Pawn.Runtime.ReadInput.Abstract;
 using UnityEngine;
 
-namespace Depra.Pawn.Runtime.Modules.ReadInput.Standalone
+namespace Depra.Pawn.Runtime.ReadInput.Standalone
 {
-    [CreateAssetMenu(fileName = "Keyboard Input", menuName = "Depra/Character/Input/Keyboard", order = 51)]
-    public class KeyboardInputReader : MotorInputReader
+    [CreateAssetMenu(fileName = "Keyboard Input",
+        menuName = Constants.FrameworkPath + Constants.ModulePath + "Input/Keyboard", order = 51)]
+    public class KeyboardInputReader : LocomotionInputReader
     {
         [SerializeField] private KeyCode[] _leftKeys = { KeyCode.A };
         [SerializeField] private KeyCode[] _rightKeys = { KeyCode.D };
@@ -16,7 +18,7 @@ namespace Depra.Pawn.Runtime.Modules.ReadInput.Standalone
         [SerializeField] private KeyCode[] _sprintKeys = { KeyCode.LeftShift };
         [SerializeField] private KeyCode[] _walkKeys = { KeyCode.LeftAlt };
         [SerializeField] private KeyCode[] _crouchKeys = { KeyCode.LeftControl };
-        
+
         public override float Horizontal() => GetKeyAxis(_leftKeys, _rightKeys);
 
         public override float Vertical() => GetKeyAxis(_backKeys, _forwardKeys);
@@ -28,7 +30,7 @@ namespace Depra.Pawn.Runtime.Modules.ReadInput.Standalone
         public override bool IsWalkPressed() => GetKeyButton(_walkKeys);
 
         public override bool IsCrouchPressed() => GetKeyButton(_crouchKeys);
-        
+
         private static float GetKeyAxis(IEnumerable<KeyCode> negative, IEnumerable<KeyCode> positive)
         {
             if (GetKeyButton(negative))

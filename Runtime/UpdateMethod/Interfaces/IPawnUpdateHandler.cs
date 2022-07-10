@@ -1,6 +1,6 @@
 ﻿namespace Depra.Pawn.Runtime.UpdateMethod.Interfaces
 {
-    public interface IPawnUpdateHandler
+    internal interface IPawnUpdateHandler
     {
         void UpdateManual();
 

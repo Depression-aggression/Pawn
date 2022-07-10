@@ -1,21 +1,22 @@
-﻿using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
+﻿using Depra.Pawn.Runtime.Locomotion.Components;
+using Depra.Pawn.Runtime.Locomotion.Components.Impl;
 using Depra.Pawn.Runtime.StateMachine.States.Abstract;
 
 namespace Depra.Pawn.Runtime.StateMachine.States
 {
     public class FallingState : PawnState
     {
-        private readonly PawnMotor _motor;
+        private readonly VelocityComponent _locomotionComponent;
         
         public override void Tick()
         {
-            var velocity = _motor.CurrentVelocity;
-            _motor.SetRelativeVelocity(velocity);
+            var velocity = _locomotionComponent.CurrentVelocity;
+            _locomotionComponent.TargetVelocity = velocity;
         }
 
-        public FallingState(PawnMotor motor)
+        public FallingState(VelocityComponent locomotionComponent)
         {
-            _motor = motor;
+            _locomotionComponent = locomotionComponent;
         }
     }
 }

@@ -1,27 +1,30 @@
-﻿using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Terrestrial.Jumping.Abstract;
-using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
+﻿using Depra.Pawn.Runtime.Locomotion.Components.Impl;
+using Depra.Pawn.Runtime.Locomotion.Types.Terrestrial.Jumping.Abstract;
 using Depra.Pawn.Runtime.StateMachine.States.Abstract;
 
 namespace Depra.Pawn.Runtime.StateMachine.States
 {
     public class JumpingState : PawnState
     {
-        private readonly JumpType _jumpType;
-        private readonly PawnMotor _motor;
+        private readonly GroundJumpType _groundJumpType;
+        private readonly LocomotionStateComponent _stateComponent;
+        private readonly VelocityComponent _velocityComponent;
 
         public override void Tick()
         {
-            var velocity = _motor.CurrentVelocity;
-            velocity = _jumpType.Jump(velocity);
+            var velocity = _velocityComponent.CurrentVelocity;
+            velocity = _groundJumpType.Jump(velocity);
 
-            _motor.SetGrounded(false);
-            _motor.SetRelativeVelocity(velocity);
+            _stateComponent.Grounded = false;
+            _velocityComponent.TargetVelocity = velocity;
         }
 
-        public JumpingState(PawnMotor motor, JumpType jumpType)
+        public JumpingState(VelocityComponent velocityComponent, LocomotionStateComponent stateComponent,
+            GroundJumpType groundJumpType)
         {
-            _motor = motor;
-            _jumpType = jumpType;
+            _groundJumpType = groundJumpType;
+            _stateComponent = stateComponent;
+            _velocityComponent = velocityComponent;
         }
     }
 }

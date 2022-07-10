@@ -3,7 +3,7 @@ using Depra.Pawn.Runtime.UpdateMethod.Interfaces;
 
 namespace Depra.Pawn.Runtime.UpdateMethod.Impl
 {
-    public class PawnUpdateHandler : IPawnUpdateHandler
+    internal class PawnUpdateHandler : IPawnUpdateHandler
     {
         private readonly UpdatablePawnBehavior[] _updateQueue;
 

@@ -7,7 +7,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Targets.Impl
     {
         [SerializeField] private CharacterController _controller;
 
-        public override void SetVelocity(Vector3 newVelocity)
+        public override void SetRelativeVelocity(Vector3 newVelocity)
         {
             var motion = newVelocity * Time.fixedDeltaTime;
             _controller.Move(motion);

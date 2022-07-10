@@ -1,24 +1,28 @@
-﻿using Depra.Pawn.Runtime.Locomotion.Calculation.Types.Abstract;
-using Depra.Pawn.Runtime.Locomotion.Commands;
-using Depra.Pawn.Runtime.Locomotion.Motor.Abstract;
+﻿using Depra.Pawn.Runtime.Locomotion.Components.Impl;
+using Depra.Pawn.Runtime.Locomotion.Types.Abstract;
 
 namespace Depra.Pawn.Runtime.StateMachine.States.Abstract
 {
     public abstract class MotionState : PawnState
     {
-        private readonly PawnMotor _motor;
+        private readonly float _speedMultiplier;
         private readonly LocomotionType _locomotionType;
+        private readonly VelocityComponent _locomotionComponent;
 
         public override void Tick()
         {
-            var command = new LocomotionCommand(_motor, _locomotionType);
-            command.Execute();
+            var velocity = _locomotionType.CalculateVelocity(_locomotionComponent);
+            velocity *= _speedMultiplier;
+
+            _locomotionComponent.TargetVelocity = velocity;
         }
 
-        protected MotionState(PawnMotor motor, LocomotionType locomotionType)
+        protected MotionState(VelocityComponent component, LocomotionType locomotionType,
+            float speedMultiplier)
         {
-            _motor = motor;
+            _locomotionComponent = component;
             _locomotionType = locomotionType;
+            _speedMultiplier = speedMultiplier;
         }
     }
 }
