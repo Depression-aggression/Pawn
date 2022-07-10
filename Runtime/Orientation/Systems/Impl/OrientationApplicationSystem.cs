@@ -14,19 +14,19 @@ namespace Depra.Pawn.Runtime.Orientation.Systems.Impl
 
         public void OnUpdate(float timeStep)
         {
-            foreach (var (actor, receivers) in _orientationOriginsMap)
+            foreach (var (orientationComponent, receivers) in _orientationOriginsMap)
             {
-                var targetRotation = actor.TargetLocalRotation;
+                var targetRotation = orientationComponent.TargetLocalRotation;
                 var currentRotation = ApplyOrientationToReceivers(receivers, targetRotation);
-                actor.CurrentLocalRotation = currentRotation;
+                orientationComponent.CurrentLocalRotation = currentRotation;
             }
         }
 
-        public void AddActor(OrientationComponent actor, OrientationOrigin[] receivers)
+        public void AddComponent(OrientationComponent component, OrientationOrigin[] receivers)
         {
-            if (actor == null)
+            if (component == null)
             {
-                throw new NullReferenceException("Actor is null!");
+                throw new NullReferenceException("Component is null!");
             }
 
             if (receivers == null || receivers.Length == 0)
@@ -34,12 +34,12 @@ namespace Depra.Pawn.Runtime.Orientation.Systems.Impl
                 throw new NullReferenceException("Receivers is null or empty!");
             }
 
-            if (_orientationOriginsMap.ContainsKey(actor))
+            if (_orientationOriginsMap.ContainsKey(component))
             {
-                throw new ArgumentException("Actor already registered!");
+                throw new ArgumentException("Component already registered!");
             }
 
-            _orientationOriginsMap.Add(actor, receivers);
+            _orientationOriginsMap.Add(component, receivers);
         }
 
         public OrientationApplicationSystem()
@@ -47,10 +47,14 @@ namespace Depra.Pawn.Runtime.Orientation.Systems.Impl
             _orientationOriginsMap = new Dictionary<OrientationComponent, OrientationOrigin[]>();
         }
 
-        public OrientationApplicationSystem(
-            IDictionary<OrientationComponent, OrientationOrigin[]> rotationReceivers)
+        public OrientationApplicationSystem(IDictionary<OrientationComponent, OrientationOrigin[]> receiversMap)
         {
-            _orientationOriginsMap = rotationReceivers ?? throw new NullReferenceException();
+            if (receiversMap == null || receiversMap.Count == 0)
+            {
+                throw new ArgumentException("Rotation receivers dictionary is null or empty!");
+            }
+
+            _orientationOriginsMap = receiversMap;
         }
 
         private static Quaternion ApplyOrientationToReceivers(IReadOnlyList<OrientationOrigin> receivers,

@@ -22,7 +22,7 @@ namespace Depra.Pawn.Runtime.Orientation.Configuration.Impl
 
             var calculationSystem = new OrientationCalculationSystem(orientationComponent, _inputReader);
             var applicationSystem = new OrientationApplicationSystem();
-            applicationSystem.AddActor(orientationComponent, layer.Origins);
+            applicationSystem.AddComponent(orientationComponent, layer.Origins);
             
             layer.AddSystem(calculationSystem);
             layer.AddSystem(applicationSystem);
