@@ -10,10 +10,5 @@ namespace Depra.Pawn.Runtime.Locomotion.Targets.Impl
             var translation = newVelocity * Time.deltaTime;
             transform.Translate(translation);
         }
-
-        public override void AddVelocity(Vector3 additionalVelocity)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

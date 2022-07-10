@@ -6,7 +6,5 @@ namespace Depra.Pawn.Runtime.Locomotion.Targets.Abstract
     internal abstract class VelocityReceiver : MonoBehaviour, IVelocityReceiver
     {
         public abstract void SetRelativeVelocity(Vector3 newVelocity);
-
-        public abstract void AddVelocity(Vector3 additionalVelocity);
     }
 }

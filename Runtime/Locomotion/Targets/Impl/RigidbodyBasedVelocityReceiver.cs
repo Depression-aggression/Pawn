@@ -7,10 +7,12 @@ namespace Depra.Pawn.Runtime.Locomotion.Targets.Impl
     {
         [SerializeField] private Rigidbody _rigidbody;
 
-        public override void SetRelativeVelocity(Vector3 newVelocity) => _rigidbody.velocity = newVelocity;
-
-        public override void AddVelocity(Vector3 additionalVelocity) => _rigidbody.velocity += additionalVelocity;
-
+        public override void SetRelativeVelocity(Vector3 newVelocity)
+        {
+            _rigidbody.velocity = newVelocity;
+            //_rigidbody.AddForce(newVelocity, ForceMode.VelocityChange);
+        }
+        
         private void Reset()
         {
             _rigidbody = GetComponent<Rigidbody>();

@@ -17,10 +17,12 @@ namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
             {
                 if (stateComponent.Grounded)
                 {
-                    continue;
+                    gravityComponent.GravityForce = Vector3.zero;
                 }
-
-                gravityComponent.GravityForce *= frameTime;
+                else
+                {
+                    gravityComponent.GravityForce *= frameTime;
+                }
             }
         }
         
