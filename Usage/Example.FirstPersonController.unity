@@ -2027,7 +2027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6655802080128131456, guid: 8dcec2892bdda174f947ed5ea96c4e05, type: 3}
       propertyPath: m_Name
-      value: Character
+      value: FpsCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 6655802080128131517, guid: 8dcec2892bdda174f947ed5ea96c4e05, type: 3}
       propertyPath: m_RootOrder

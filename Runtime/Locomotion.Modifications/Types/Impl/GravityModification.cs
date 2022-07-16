@@ -9,7 +9,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Modifications.Types.Impl
     {
         private readonly IGravitySource _gravitySource;
         private readonly IGravityComponent _gravityComponent;
-        
+
         public Vector3 Modify(Vector3 velocity)
         {
             var gravityForce = _gravitySource.GetGravity(_gravityComponent);

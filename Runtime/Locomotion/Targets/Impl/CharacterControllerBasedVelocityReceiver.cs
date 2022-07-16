@@ -9,7 +9,6 @@ namespace Depra.Pawn.Runtime.Locomotion.Targets.Impl
 
         public override void SetRelativeVelocity(Vector3 newVelocity)
         {
-            Debug.Log(newVelocity);
             var motion = newVelocity * Time.fixedDeltaTime;
             _controller.Move(motion);
         }

@@ -9,7 +9,10 @@ namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
     {
         private readonly IPawnStateMachine _stateMachine;
 
-        public override void OnUpdate(float frameTime) => _stateMachine.Tick();
+        public override void OnUpdate(float frameTime)
+        {
+            _stateMachine.Tick();
+        }
 
         public StateMachineBasedLocomotionStateProcessingSystem(IPawnStateMachine stateMachine,
             ILocomotionStateComponent initialState = null) : base(initialState ?? new LocomotionStateComponent())

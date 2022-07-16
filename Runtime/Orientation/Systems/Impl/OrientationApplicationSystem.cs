@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Depra.Pawn.Runtime.Orientation.Actor.Impl;
+using Depra.Pawn.Runtime.Orientation.Components.Impl;
 using Depra.Pawn.Runtime.Orientation.Structs;
 using Depra.Pawn.Runtime.Orientation.Systems.Interfaces;
 using Depra.Pawn.Runtime.Orientation.Targets.Abstract;

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 636065622274369830}
   - component: {fileID: 3114854979726777023}
   - component: {fileID: 4813051929710558188}
-  - component: {fileID: 6936650478462459380}
   m_Layer: 0
   m_Name: Motor
   m_TagString: Untagged
@@ -81,19 +80,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 6962521663357194176}
---- !u!114 &6936650478462459380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3278932274911862752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bddb257075844f495e134ce590859ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 0}
 --- !u!1 &6655802078651253103
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +349,7 @@ GameObject:
   - component: {fileID: 6962521663357194176}
   - component: {fileID: 6017431829407900674}
   m_Layer: 6
-  m_Name: Character
+  m_Name: FpsCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

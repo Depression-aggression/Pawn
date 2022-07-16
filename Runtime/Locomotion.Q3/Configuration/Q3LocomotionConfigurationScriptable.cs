@@ -57,11 +57,11 @@ namespace Depra.Pawn.Runtime.Locomotion.Q3.Configuration
             var gravitySource = new DirectionalGravitySource(_gravity, Vector3.down);
             gravityCalculationSystem.AddComponent(_gravityComponent, gravitySource);
 
-            var gravityCorrectionSystem = new GravityCorrectionSystem();
+            var gravityCorrectionSystem = new GravityCorrectionAccordStateSystem();
             gravityCorrectionSystem.AddComponent(_gravityComponent, _stateComponent);
 
             var gravityApplicationSystem = new GravityApplicationSystem();
-            gravityApplicationSystem.AddComponent(_gravityComponent, _velocityComponent);
+            gravityApplicationSystem.Add(_gravityComponent, _velocityComponent, _stateComponent);
 
             var velocityApplicationSystem = new VelocityApplicationSystem();
             velocityApplicationSystem.AddComponent(_velocityComponent, layer.VelocityReceivers);
@@ -83,7 +83,7 @@ namespace Depra.Pawn.Runtime.Locomotion.Q3.Configuration
 
             var groundCheckSystem = new GroundCheckSystem();
             groundCheckSystem.AddComponent(_stateComponent, groundChecker);
-            
+
             monoLayer.AddPhysicsSystem(groundCheckSystem);
         }
 
@@ -110,10 +110,10 @@ namespace Depra.Pawn.Runtime.Locomotion.Q3.Configuration
             var idleState = new IdleState(_velocityComponent);
             var fallingState = new FallingState(_velocityComponent);
 
-            var sprintingState =
-                new SprintingState(_velocityComponent, locomotionType, _groundMovement.SpeedMultiplier);
-            var walkingState = new WalkingState(_velocityComponent, locomotionType, _groundMovement.SpeedMultiplier);
-            var crouchState = new CrouchState(_velocityComponent, locomotionType, _groundMovement.SpeedMultiplier);
+            var speedMultiplier = _groundMovement.SpeedMultiplier;
+            var sprintingState = new SprintingState(_velocityComponent, locomotionType, speedMultiplier);
+            var walkingState = new WalkingState(_velocityComponent, locomotionType, speedMultiplier);
+            var crouchState = new CrouchState(_velocityComponent, locomotionType, speedMultiplier);
 
             var jumpType = new Q3GroundJump(_jump);
             var jumpState = new JumpingState(_velocityComponent, _stateComponent, jumpType);

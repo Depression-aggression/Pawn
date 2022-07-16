@@ -8,11 +8,11 @@ namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
 {
     public class GroundCheckSystem : ILocomotionSystem
     {
-        private readonly IDictionary<LocomotionStateComponent, GroundChecker> _groundCheckMap;
+        private readonly IDictionary<LocomotionStateComponent, GroundChecker> _filter;
 
         public void OnUpdate(float frameTime)
         {
-            foreach (var (stateComponent, groundChecker) in _groundCheckMap)
+            foreach (var (stateComponent, groundChecker) in _filter)
             {
                 stateComponent.Grounded = groundChecker.IsGrounded;
             }
@@ -30,27 +30,27 @@ namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
                 throw new NullReferenceException("Ground checker is null!");
             }
             
-            if (_groundCheckMap.ContainsKey(stateComponent))
+            if (_filter.ContainsKey(stateComponent))
             {
                 throw new ArgumentException("Component already registered!");
             }
 
-            _groundCheckMap[stateComponent] = groundChecker;
+            _filter[stateComponent] = groundChecker;
         }
 
         public GroundCheckSystem()
         {
-            _groundCheckMap = new Dictionary<LocomotionStateComponent, GroundChecker>();
+            _filter = new Dictionary<LocomotionStateComponent, GroundChecker>();
         }
 
-        public GroundCheckSystem(IDictionary<LocomotionStateComponent, GroundChecker> groundCheckMap)
+        public GroundCheckSystem(IDictionary<LocomotionStateComponent, GroundChecker> filter)
         {
-            if (groundCheckMap == null || groundCheckMap.Count == 0)
+            if (filter == null || filter.Count == 0)
             {
                 throw new ArgumentException("Map is null or empty!");
             }
 
-            _groundCheckMap = groundCheckMap;
+            _filter = filter;
         }
     }
 }

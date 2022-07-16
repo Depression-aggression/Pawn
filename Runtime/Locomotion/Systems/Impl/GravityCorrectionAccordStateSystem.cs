@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using Depra.Pawn.Runtime.Locomotion.Components.Impl;
 using Depra.Pawn.Runtime.Locomotion.Components.Interfaces;
 using Depra.Pawn.Runtime.Locomotion.Systems.Interfaces;
-using UnityEngine;
 
 namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
 {
-    public class GravityCorrectionSystem : ILocomotionSystem
+    public class GravityCorrectionAccordStateSystem : ILocomotionSystem
     {
-        private readonly IDictionary<GravityComponent, ILocomotionStateComponent> _stateComponentsMap;
+        private readonly IDictionary<GravityComponent, ILocomotionStateComponent> _filter;
 
         public void OnUpdate(float frameTime)
         {
-            foreach (var (gravityComponent, stateComponent) in _stateComponentsMap)
+            foreach (var (gravityComponent, stateComponent) in _filter)
             {
                 if (stateComponent.Grounded)
                 {
-                    gravityComponent.GravityForce = Vector3.zero;
+                    continue;
                 }
-                else
-                {
-                    gravityComponent.GravityForce *= frameTime;
-                }
+
+                gravityComponent.GravityForce *= frameTime;
             }
         }
-        
+
         public void AddComponent(GravityComponent gravityComponent, ILocomotionStateComponent stateComponent)
         {
             if (gravityComponent == null)
@@ -33,28 +30,28 @@ namespace Depra.Pawn.Runtime.Locomotion.Systems.Impl
                 throw new NullReferenceException("Gravity component is null!");
             }
 
-            if (_stateComponentsMap.ContainsKey(gravityComponent))
+            if (_filter.ContainsKey(gravityComponent))
             {
                 throw new ArgumentException("Component already registered!");
             }
 
-            _stateComponentsMap[gravityComponent] =
+            _filter[gravityComponent] =
                 stateComponent ?? throw new NullReferenceException("State component is null!");
         }
 
-        public GravityCorrectionSystem()
+        public GravityCorrectionAccordStateSystem()
         {
-            _stateComponentsMap = new Dictionary<GravityComponent, ILocomotionStateComponent>();
+            _filter = new Dictionary<GravityComponent, ILocomotionStateComponent>();
         }
 
-        public GravityCorrectionSystem(IDictionary<GravityComponent, ILocomotionStateComponent> stateComponentsMap)
+        public GravityCorrectionAccordStateSystem(IDictionary<GravityComponent, ILocomotionStateComponent> filter)
         {
-            if (stateComponentsMap == null || stateComponentsMap.Count == 0)
+            if (filter == null || filter.Count == 0)
             {
                 throw new ArgumentException("Map is null or empty!");
             }
 
-            _stateComponentsMap = stateComponentsMap;
+            _filter = filter;
         }
     }
 }
